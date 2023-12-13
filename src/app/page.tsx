@@ -179,8 +179,10 @@ export default function Home() {
 
   const changeVisiMisi = (id: number) => {
     const selectedVisiMisi = visiMisiData.find((item) => item.id === id);
-    setVisiMisi(selectedVisiMisi);
-    setActiveTab(id);
+    if (selectedVisiMisi) {
+      setVisiMisi(selectedVisiMisi);
+      setActiveTab(id);
+    }
   };
 
   const handleButtonClick = () => {
