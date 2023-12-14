@@ -58,12 +58,12 @@ const visiMisiData = [
   {
     id: 1,
     content:
-      "Building our legend and leading through innovation, evolution and emotion.",
+      "Membangun legenda dan memimpin melalui inovasi, evolusi, dan emosi.",
   },
   {
     id: 2,
     content:
-      "More than building machines, we stand for the timeless pursuit of adventure. Freedom for the soul.",
+      "Lebih dari sekadar membangun mesin, kami berdiri untuk mengejar petualangan yang tak lekang oleh waktu. Kebebasan untuk jiwa.",
   },
 ];
 
