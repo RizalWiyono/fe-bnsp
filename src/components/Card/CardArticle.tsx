@@ -5,9 +5,8 @@ import Button from "../Button/Button";
 
 type Product = {
   id: number;
-  name: string;
+  title: string;
   description: string;
-  imageSrc: string;
 };
 
 type CardArticleProps = {
@@ -23,7 +22,7 @@ const CardArticle: React.FC<CardArticleProps> = ({
     <div className="bg-white bg-opacity-10 p-4 rounded-lg">
       <div className="rounded-lg">
         <Image
-          src={product.imageSrc}
+          src={'https://pict.sindonews.net/dyn/850/pena/news/2023/11/08/121/1246779/hogers-indonesia-siap-gelar-drag-race-harleydavidson-lai.jpg'}
           className="w-full h-full object-contain rounded-lg"
           width={720}
           height={420}
@@ -32,7 +31,7 @@ const CardArticle: React.FC<CardArticleProps> = ({
       </div>
       <div className="pt-4">
         <h1 className="text-md font-semibold tracking-widest line-clamp-1">
-          {product.name}
+          {product.title}
         </h1>
         <p className="text-sm font-extralight mt-2 mb-4 line-clamp-3">
           {product.description}

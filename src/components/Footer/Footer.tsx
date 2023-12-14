@@ -7,7 +7,13 @@ const Footer: React.FC = () => {
     <footer className="bg-[#1d1d1d] py-20">
       <div className="max-w-7xl mx-auto grid grid-cols-4 gap-10">
         <div>
-          <Image src={Logo} width={60} height={30} className="mb-4" alt="Logo" />
+          <Image
+            src={Logo}
+            width={60}
+            height={30}
+            className="mb-4"
+            alt="Logo"
+          />
           <h1 className="text-3xl font-black tracking-widest">
             <i>
               HARLEY <br /> <span className="text-[#F17A36]">DAVIDSON</span>
@@ -88,6 +94,19 @@ const Footer: React.FC = () => {
               />
             </svg>
             <p>877-HDSTOCK (437-8625) (toll-free)</p>
+          </div>
+
+          <div className="rounded-lg overflow-hidden mt-10">
+            <iframe
+              title="Google Maps"
+              width="100%"
+              height="300"
+              scrolling="no"
+              marginHeight={0}
+              marginWidth={0}
+              src="https://maps.google.com/maps?width=100%25&amp;height=600&amp;hl=en&amp;q=3700%20West%20Juneau%20Avenue%20Millwaukee,%20Wisconsin%2053208+(Harley%20Davidson)&amp;t=&amp;z=14&amp;ie=UTF8&amp;iwloc=B&amp;output=embed"
+            >
+            </iframe>
           </div>
         </div>
       </div>

@@ -2,7 +2,8 @@
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { useState } from "react";
+import React, { useEffect, useState } from "react";
+import axios, { AxiosResponse } from "axios";
 
 import Navbar from "@/components/Navbar/Navbar";
 import Footer from "@/components/Footer/Footer";
@@ -97,80 +98,42 @@ const eventGallery = [
   },
 ];
 
-const productData = [
-  {
-    id: 1,
-    name: "HELM HARLEY",
-    description: "Helm orange Harley Davidson",
-    imageSrc:
-      "https://i.pinimg.com/originals/e9/4f/64/e94f64b551b98370d48743d4e061f643.png",
-    price: "75.000",
-  },
-  {
-    id: 2,
-    name: "JAKET KULIT",
-    description: "Jaket kulit asli berkualitas tinggi",
-    imageSrc:
-      "https://i.pinimg.com/originals/e9/4f/64/e94f64b551b98370d48743d4e061f643.png",
-    price: "75.000",
-  },
-  {
-    id: 3,
-    name: "SEPEDA MOTOR",
-    description: "Sepeda motor sport terbaru",
-    imageSrc:
-      "https://i.pinimg.com/originals/e9/4f/64/e94f64b551b98370d48743d4e061f643.png",
-    price: "75.000",
-  },
-  {
-    id: 4,
-    name: "KAMERA DSLR",
-    description: "Kamera profesional untuk fotografi",
-    imageSrc:
-      "https://i.pinimg.com/originals/e9/4f/64/e94f64b551b98370d48743d4e061f643.png",
-    price: "75.000",
-  },
-];
-
-const articleData = [
-  {
-    id: 1,
-    name: "DRAG RACE HARLEY DAVIDSON",
-    description:
-      "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur interdum risus lectus, vel ullamcorper libero vehicula et. Integer in tellus aliquam, mollis metus ut, gravida magna. Aenean aliquet a leo et suscipit. Quisque ac sollicitudin velit. Phasellus tempor purus sit amet justo egestas lobortis. Proin dignissim molestie nisl a congue. Sed sit amet varius enim, eu euismod magna. Donec hendrerit venenatis lorem sed euismod. Vestibulum vel sapien viverra, blandit urna vel, mollis dolor. Cras ac nisi sit amet nisi consectetur porttitor eu at sapien. Morbi placerat congue leo, eu tempor tellus dapibus id. Donec vitae nisl convallis, rhoncus lacus nec, pharetra sem. Nunc egestas urna tellus, a egestas massa feugiat faucibus. Cras feugiat felis at gravida consequat. Donec eget vehicula urna, ac consequat dui. Praesent nisi turpis, semper eget velit vel, sollicitudin blandit velit. Proin id enim ac nisi placerat porttitor ac et leo. Etiam mollis sapien quis maximus blandit. Nullam id venenatis tellus. Curabitur euismod a ex at volutpat. Pellentesque tortor diam, ultricies id nulla sit amet, molestie lobortis erat. Phasellus dolor quam, pellentesque eget lorem eu, dignissim fringilla turpis. Ut sollicitudin tortor ante, quis maximus tortor blandit eget. Pellentesque id quam in eros ultrices consectetur. Donec sit amet fringilla massa.Fusce blandit malesuada nunc, vitae fringilla nisi feugiat non. Morbi ut eros vitae augue facilisis placerat et ut velit. Phasellus volutpat et leo eu porttitor. Integer ac nisl mollis, tristique neque non, viverra lectus. Phasellus gravida diam ut varius mattis. Pellentesque mattis suscipit arcu non tincidunt. Nullam tempor accumsan arcu, id blandit metus molestie eget. Vivamus sed purus elit. Vivamus euismod ipsum lorem, quis feugiat est malesuada aVivamus elementum metus vel blandit aliquam. Phasellus interdum turpis sit amet orci molestie aliquet. Cras condimentum elementum mollis. Donec faucibus lectus felis, vitae ornare felis vulputate at. Aenean dolor massa, condimentum in tellus quis, gravida vestibulum dolor. Aenean ut commodo felis. Mauris massa metus, ultrices sed tortor ac, feugiat maximus quam. Suspendisse porttitor lectus nec tortor porttitor dapibus. Sed varius diam quis augue tempus cursus ac condimentum nisi. Ut sed risus at magna lobortis consequat. Aliquam in suscipit enim, elementum euismod turpis. Sed quis vestibulum turpis. Vivamus ac dolor tempor, rhoncus tellus a, dignissim est. Vivamus quis dapibus neque. Sed sapien velit, ultricies a consequat id, pulvinar at tellus.",
-    imageSrc:
-      "https://pict.sindonews.net/dyn/850/pena/news/2023/11/08/121/1246779/hogers-indonesia-siap-gelar-drag-race-harleydavidson-lai.jpg",
-  },
-  {
-    id: 2,
-    name: "DRAG RACE HARLEY DAVIDSON",
-    description:
-      "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur interdum risus lectus, vel ullamcorper libero vehicula et. Integer in tellus aliquam, mollis metus ut, gravida magna. Aenean aliquet a leo et suscipit. Quisque ac sollicitudin velit. Phasellus tempor purus sit amet justo egestas lobortis. Proin dignissim molestie nisl a congue. Sed sit amet varius enim, eu euismod magna. Donec hendrerit venenatis lorem sed euismod. Vestibulum vel sapien viverra, blandit urna vel, mollis dolor. Cras ac nisi sit amet nisi consectetur porttitor eu at sapien. Morbi placerat congue leo, eu tempor tellus dapibus id. Donec vitae nisl convallis, rhoncus lacus nec, pharetra sem. Nunc egestas urna tellus, a egestas massa feugiat faucibus. Cras feugiat felis at gravida consequat. Donec eget vehicula urna, ac consequat dui. Praesent nisi turpis, semper eget velit vel, sollicitudin blandit velit. Proin id enim ac nisi placerat porttitor ac et leo. Etiam mollis sapien quis maximus blandit. Nullam id venenatis tellus. Curabitur euismod a ex at volutpat. Pellentesque tortor diam, ultricies id nulla sit amet, molestie lobortis erat. Phasellus dolor quam, pellentesque eget lorem eu, dignissim fringilla turpis. Ut sollicitudin tortor ante, quis maximus tortor blandit eget. Pellentesque id quam in eros ultrices consectetur. Donec sit amet fringilla massa.Fusce blandit malesuada nunc, vitae fringilla nisi feugiat non. Morbi ut eros vitae augue facilisis placerat et ut velit. Phasellus volutpat et leo eu porttitor. Integer ac nisl mollis, tristique neque non, viverra lectus. Phasellus gravida diam ut varius mattis. Pellentesque mattis suscipit arcu non tincidunt. Nullam tempor accumsan arcu, id blandit metus molestie eget. Vivamus sed purus elit. Vivamus euismod ipsum lorem, quis feugiat est malesuada aVivamus elementum metus vel blandit aliquam. Phasellus interdum turpis sit amet orci molestie aliquet. Cras condimentum elementum mollis. Donec faucibus lectus felis, vitae ornare felis vulputate at. Aenean dolor massa, condimentum in tellus quis, gravida vestibulum dolor. Aenean ut commodo felis. Mauris massa metus, ultrices sed tortor ac, feugiat maximus quam. Suspendisse porttitor lectus nec tortor porttitor dapibus. Sed varius diam quis augue tempus cursus ac condimentum nisi. Ut sed risus at magna lobortis consequat. Aliquam in suscipit enim, elementum euismod turpis. Sed quis vestibulum turpis. Vivamus ac dolor tempor, rhoncus tellus a, dignissim est. Vivamus quis dapibus neque. Sed sapien velit, ultricies a consequat id, pulvinar at tellus.",
-    imageSrc:
-      "https://pict.sindonews.net/dyn/850/pena/news/2023/11/08/121/1246779/hogers-indonesia-siap-gelar-drag-race-harleydavidson-lai.jpg",
-  },
-  {
-    id: 3,
-    name: "DRAG RACE HARLEY DAVIDSON",
-    description:
-      "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur interdum risus lectus, vel ullamcorper libero vehicula et. Integer in tellus aliquam, mollis metus ut, gravida magna. Aenean aliquet a leo et suscipit. Quisque ac sollicitudin velit. Phasellus tempor purus sit amet justo egestas lobortis. Proin dignissim molestie nisl a congue. Sed sit amet varius enim, eu euismod magna. Donec hendrerit venenatis lorem sed euismod. Vestibulum vel sapien viverra, blandit urna vel, mollis dolor. Cras ac nisi sit amet nisi consectetur porttitor eu at sapien. Morbi placerat congue leo, eu tempor tellus dapibus id. Donec vitae nisl convallis, rhoncus lacus nec, pharetra sem. Nunc egestas urna tellus, a egestas massa feugiat faucibus. Cras feugiat felis at gravida consequat. Donec eget vehicula urna, ac consequat dui. Praesent nisi turpis, semper eget velit vel, sollicitudin blandit velit. Proin id enim ac nisi placerat porttitor ac et leo. Etiam mollis sapien quis maximus blandit. Nullam id venenatis tellus. Curabitur euismod a ex at volutpat. Pellentesque tortor diam, ultricies id nulla sit amet, molestie lobortis erat. Phasellus dolor quam, pellentesque eget lorem eu, dignissim fringilla turpis. Ut sollicitudin tortor ante, quis maximus tortor blandit eget. Pellentesque id quam in eros ultrices consectetur. Donec sit amet fringilla massa.Fusce blandit malesuada nunc, vitae fringilla nisi feugiat non. Morbi ut eros vitae augue facilisis placerat et ut velit. Phasellus volutpat et leo eu porttitor. Integer ac nisl mollis, tristique neque non, viverra lectus. Phasellus gravida diam ut varius mattis. Pellentesque mattis suscipit arcu non tincidunt. Nullam tempor accumsan arcu, id blandit metus molestie eget. Vivamus sed purus elit. Vivamus euismod ipsum lorem, quis feugiat est malesuada aVivamus elementum metus vel blandit aliquam. Phasellus interdum turpis sit amet orci molestie aliquet. Cras condimentum elementum mollis. Donec faucibus lectus felis, vitae ornare felis vulputate at. Aenean dolor massa, condimentum in tellus quis, gravida vestibulum dolor. Aenean ut commodo felis. Mauris massa metus, ultrices sed tortor ac, feugiat maximus quam. Suspendisse porttitor lectus nec tortor porttitor dapibus. Sed varius diam quis augue tempus cursus ac condimentum nisi. Ut sed risus at magna lobortis consequat. Aliquam in suscipit enim, elementum euismod turpis. Sed quis vestibulum turpis. Vivamus ac dolor tempor, rhoncus tellus a, dignissim est. Vivamus quis dapibus neque. Sed sapien velit, ultricies a consequat id, pulvinar at tellus.",
-    imageSrc:
-      "https://pict.sindonews.net/dyn/850/pena/news/2023/11/08/121/1246779/hogers-indonesia-siap-gelar-drag-race-harleydavidson-lai.jpg",
-  },
-  {
-    id: 4,
-    name: "DRAG RACE HARLEY DAVIDSON",
-    description:
-      "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur interdum risus lectus, vel ullamcorper libero vehicula et. Integer in tellus aliquam, mollis metus ut, gravida magna. Aenean aliquet a leo et suscipit. Quisque ac sollicitudin velit. Phasellus tempor purus sit amet justo egestas lobortis. Proin dignissim molestie nisl a congue. Sed sit amet varius enim, eu euismod magna. Donec hendrerit venenatis lorem sed euismod. Vestibulum vel sapien viverra, blandit urna vel, mollis dolor. Cras ac nisi sit amet nisi consectetur porttitor eu at sapien. Morbi placerat congue leo, eu tempor tellus dapibus id. Donec vitae nisl convallis, rhoncus lacus nec, pharetra sem. Nunc egestas urna tellus, a egestas massa feugiat faucibus. Cras feugiat felis at gravida consequat. Donec eget vehicula urna, ac consequat dui. Praesent nisi turpis, semper eget velit vel, sollicitudin blandit velit. Proin id enim ac nisi placerat porttitor ac et leo. Etiam mollis sapien quis maximus blandit. Nullam id venenatis tellus. Curabitur euismod a ex at volutpat. Pellentesque tortor diam, ultricies id nulla sit amet, molestie lobortis erat. Phasellus dolor quam, pellentesque eget lorem eu, dignissim fringilla turpis. Ut sollicitudin tortor ante, quis maximus tortor blandit eget. Pellentesque id quam in eros ultrices consectetur. Donec sit amet fringilla massa.Fusce blandit malesuada nunc, vitae fringilla nisi feugiat non. Morbi ut eros vitae augue facilisis placerat et ut velit. Phasellus volutpat et leo eu porttitor. Integer ac nisl mollis, tristique neque non, viverra lectus. Phasellus gravida diam ut varius mattis. Pellentesque mattis suscipit arcu non tincidunt. Nullam tempor accumsan arcu, id blandit metus molestie eget. Vivamus sed purus elit. Vivamus euismod ipsum lorem, quis feugiat est malesuada aVivamus elementum metus vel blandit aliquam. Phasellus interdum turpis sit amet orci molestie aliquet. Cras condimentum elementum mollis. Donec faucibus lectus felis, vitae ornare felis vulputate at. Aenean dolor massa, condimentum in tellus quis, gravida vestibulum dolor. Aenean ut commodo felis. Mauris massa metus, ultrices sed tortor ac, feugiat maximus quam. Suspendisse porttitor lectus nec tortor porttitor dapibus. Sed varius diam quis augue tempus cursus ac condimentum nisi. Ut sed risus at magna lobortis consequat. Aliquam in suscipit enim, elementum euismod turpis. Sed quis vestibulum turpis. Vivamus ac dolor tempor, rhoncus tellus a, dignissim est. Vivamus quis dapibus neque. Sed sapien velit, ultricies a consequat id, pulvinar at tellus.",
-    imageSrc:
-      "https://pict.sindonews.net/dyn/850/pena/news/2023/11/08/121/1246779/hogers-indonesia-siap-gelar-drag-race-harleydavidson-lai.jpg",
-  },
-];
 
 export default function Home() {
+  const [dataProduct, setDataProduct] = useState<any[]>([]);
+  const [dataArticle, setDataArticle] = useState<any[]>([]);
   const [visiMisi, setVisiMisi] = useState(visiMisiData[0]);
   const [activeTab, setActiveTab] = useState(1);
   const router = useRouter();
+
+  useEffect(() => {
+    fetchArticle();
+    fetchProducts();
+  }, []);
+
+  const fetchProducts = async () => {
+    try {
+      const response: AxiosResponse = await axios.get(
+        "http://localhost:3003/products"
+      );
+      console.log(response.data.motorbikes);
+      setDataProduct(response.data.motorbikes);
+    } catch (error) {
+      console.error("Error fetching users:", error);
+    }
+  };
+
+  const fetchArticle = async () => {
+    try {
+      const response: AxiosResponse = await axios.get(
+        "http://localhost:3003/articles"
+      );
+      console.log(response.data.motorbikes);
+      setDataArticle(response.data.motorbikes);
+    } catch (error) {
+      console.error("Error fetching users:", error);
+    }
+  };
 
   const handleButtonClickArticle = () => {
     console.log("Tombol ditekan!");
@@ -205,7 +168,9 @@ export default function Home() {
         <div className="max-w-7xl mx-auto">
           <div className="grid grid-cols-3 gap-4">
             <div className="border-r-[1px] border-r-[#FFF]">
-              <h1 className="text-md font-semibold tracking-widest">KECEPATAN</h1>
+              <h1 className="text-md font-semibold tracking-widest">
+                KECEPATAN
+              </h1>
               <p className="text-sm font-extralight">
                 Jangan biarkan kesempurnaan menghalangi proses dan kecepatan
               </p>
@@ -217,7 +182,9 @@ export default function Home() {
               </p>
             </div>
             <div>
-              <h1 className="text-md font-semibold tracking-widest">KEBERANIAN</h1>
+              <h1 className="text-md font-semibold tracking-widest">
+                KEBERANIAN
+              </h1>
               <p className="text-sm font-extralight">
                 Mengambil risiko dan melawan norma
               </p>
@@ -302,7 +269,7 @@ export default function Home() {
             Merchandise yang bisa anda dapatkan secara terpisah
           </p>
           <div className="grid grid-cols-4 gap-4 mt-20">
-            {productData.map((product) => (
+            {dataProduct.map((product) => (
               <CardProduct
                 key={product.id}
                 product={product}
@@ -376,7 +343,7 @@ export default function Home() {
             Artikel yang bisa anda baca dimana saja
           </p>
           <div className="grid grid-cols-4 gap-4 mt-20">
-            {articleData.map((product) => (
+            {dataArticle.map((product) => (
               <CardArticle
                 key={product.id}
                 product={product}

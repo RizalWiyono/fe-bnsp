@@ -1,7 +1,6 @@
 "use client";
-import Image from "next/image";
-import Link from "next/link";
-import { useState } from "react";
+import React, { useEffect, useState } from "react";
+import axios, { AxiosResponse } from "axios";
 import { useRouter } from "next/navigation";
 
 import Navbar from "@/components/Navbar/Navbar";
@@ -44,6 +43,7 @@ const articleData = [
 ];
 
 export default function Home() {
+  const [dataProduct, setDataProduct] = useState<any[]>([]);
   const router = useRouter();
 
   const handleButtonClick = () => {
@@ -51,6 +51,21 @@ export default function Home() {
     router.push(`/article/1`);
   };
 
+  useEffect(() => {
+    fetchProducts();
+  }, []);
+
+  const fetchProducts = async () => {
+    try {
+      const response: AxiosResponse = await axios.get(
+        "http://localhost:3003/articles"
+      );
+      console.log(response.data.motorbikes);
+      setDataProduct(response.data.motorbikes);
+    } catch (error) {
+      console.error("Error fetching users:", error);
+    }
+  };
   return (
     <main>
       <Navbar />
@@ -63,7 +78,7 @@ export default function Home() {
             Artikel yang bisa anda baca dimana saja
           </p>
           <div className="grid grid-cols-4 gap-4 mt-20">
-            {articleData.map((product) => (
+            {dataProduct.map((product) => (
               <CardArticle
                 key={product.id}
                 product={product}

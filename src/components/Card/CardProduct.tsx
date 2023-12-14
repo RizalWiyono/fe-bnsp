@@ -24,7 +24,7 @@ const CardProduct: React.FC<CardProductProps> = ({
     <div className="bg-white bg-opacity-10 p-4 rounded-lg">
       <div className="bg-white bg-opacity-10 rounded-lg h-[200px] p-4">
         <Image
-          src={product.imageSrc}
+          src={'https://i.pinimg.com/originals/e9/4f/64/e94f64b551b98370d48743d4e061f643.png'}
           className="w-full h-full object-contain"
           width={720}
           height={420}

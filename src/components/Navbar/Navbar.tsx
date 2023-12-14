@@ -1,9 +1,10 @@
 import React from "react";
-import ReactDOM from "react-dom";
 import Modal from "react-modal";
 import Link from "next/link";
 import Image from "next/image";
 import { useState } from "react";
+import axios, { AxiosResponse } from "axios";
+import Swal from "sweetalert2";
 
 import Button from "../Button/Button";
 
@@ -21,12 +22,78 @@ const customStyles = {
   },
 };
 
+interface RegisterData {
+  full_name: string;
+  email: string;
+  password: string;
+}
+
 const Navbar = () => {
   const [modalIsOpen, setIsOpen] = useState(false);
   const [isFormLogin, setIsFormLogin] = useState(true);
+  const [fullName, setFullName] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
 
-  const handleLogin = () => {
-    console.log("asd");
+  const handleLogin = async () => {
+    try {
+      const response: AxiosResponse = await axios.post(
+        "http://localhost:3003/login",
+        {
+          email: email,
+          password: password,
+          role: "User",
+        }
+      );
+      setIsOpen(false);
+      Swal.fire({
+        title: "Good job!",
+        text: "Login successful",
+        icon: "success",
+      });
+      console.log("Login successful!", response.data);
+    } catch (error: any) {
+      Swal.fire({
+        title: "Oops!",
+        text: "Login failed!",
+        icon: "error",
+      });
+      console.error(
+        "Registration failed!",
+        error.response?.data || error.message
+      );
+    }
+  };
+
+  const handleRegister = async (registerData: RegisterData): Promise<void> => {
+    try {
+      const response: AxiosResponse = await axios.post(
+        "http://localhost:3003/users",
+        {
+          full_name: fullName,
+          email: email,
+          password: password,
+          role: "User",
+        }
+      );
+      setIsOpen(false);
+      Swal.fire({
+        title: "Good job!",
+        text: "Registration successful",
+        icon: "success",
+      });
+      console.log("Registration successful!", response.data);
+    } catch (error: any) {
+      Swal.fire({
+        title: "Oops!",
+        text: "Registration failed!",
+        icon: "error",
+      });
+      console.error(
+        "Registration failed!",
+        error.response?.data || error.message
+      );
+    }
   };
 
   const openModal = () => {
@@ -52,6 +119,8 @@ const Navbar = () => {
               <label className="text-white">Email</label>
               <input
                 type="email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
                 className="border-[1px] bg-transparent border-white w-full px-4 py-2 text-white"
               />
             </div>
@@ -59,6 +128,8 @@ const Navbar = () => {
               <label className="text-white">Password</label>
               <input
                 type="password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
                 className="border-[1px] bg-transparent border-white w-full px-4 py-2 text-white"
               />
             </div>
@@ -68,7 +139,11 @@ const Navbar = () => {
                 title="MASUK"
                 typeButton="secondary"
               />
-              <Link href="#" onClick={() => setIsFormLogin(false)} className="ml-4">
+              <Link
+                href="#"
+                onClick={() => setIsFormLogin(false)}
+                className="ml-4"
+              >
                 Register
               </Link>
             </div>
@@ -82,6 +157,8 @@ const Navbar = () => {
               <label className="text-white">Nama</label>
               <input
                 type="text"
+                value={fullName}
+                onChange={(e) => setFullName(e.target.value)}
                 className="border-[1px] bg-transparent border-white w-full px-4 py-2 text-white"
               />
             </div>
@@ -89,6 +166,8 @@ const Navbar = () => {
               <label className="text-white">Email</label>
               <input
                 type="email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
                 className="border-[1px] bg-transparent border-white w-full px-4 py-2 text-white"
               />
             </div>
@@ -96,16 +175,22 @@ const Navbar = () => {
               <label className="text-white">Password</label>
               <input
                 type="password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
                 className="border-[1px] bg-transparent border-white w-full px-4 py-2 text-white"
               />
             </div>
             <div className="mt-8 flex items-center">
               <Button
-                onClickAction={handleLogin}
+                onClickAction={handleRegister}
                 title="DAFTAR"
                 typeButton="secondary"
               />
-              <Link href="#" onClick={() => setIsFormLogin(true)} className="ml-4">
+              <Link
+                href="#"
+                onClick={() => setIsFormLogin(true)}
+                className="ml-4"
+              >
                 Login
               </Link>
             </div>
