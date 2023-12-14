@@ -205,21 +205,21 @@ export default function Home() {
         <div className="max-w-7xl mx-auto">
           <div className="grid grid-cols-3 gap-4">
             <div className="border-r-[1px] border-r-[#FFF]">
-              <h1 className="text-md font-semibold tracking-widest">SPEED</h1>
+              <h1 className="text-md font-semibold tracking-widest">KECEPATAN</h1>
               <p className="text-sm font-extralight">
-                Don’t let perfection get in the way of process and pace
+                Jangan biarkan kesempurnaan menghalangi proses dan kecepatan
               </p>
             </div>
             <div className="border-r-[1px] border-r-[#FFF]">
-              <h1 className="text-md font-semibold tracking-widest">LEAN</h1>
+              <h1 className="text-md font-semibold tracking-widest">RINGAN</h1>
               <p className="text-sm font-extralight">
-                Maximize impact with limited resources
+                Memaksimalkan dampak dengan sumber daya yang terbatas
               </p>
             </div>
             <div>
-              <h1 className="text-md font-semibold tracking-widest">COURAGE</h1>
+              <h1 className="text-md font-semibold tracking-widest">KEBERANIAN</h1>
               <p className="text-sm font-extralight">
-                Take risks and go against the norm
+                Mengambil risiko dan melawan norma
               </p>
             </div>
           </div>
